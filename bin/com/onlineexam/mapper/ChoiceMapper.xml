@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlineexam.mapper.ChoiceMapper">
+  <resultMap id="BaseResultMap" type="com.onlineexam.po.Choice">
+    <id column="choiceid" jdbcType="INTEGER" property="choiceid" />
+    <result column="questionid" jdbcType="INTEGER" property="questionid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.onlineexam.po.Choice">
+    <result column="choice" jdbcType="LONGVARCHAR" property="choice" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    choiceid, questionid
+  </sql>
+  <sql id="Blob_Column_List">
+    choice
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.onlineexam.po.ChoiceExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from choice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.onlineexam.po.ChoiceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from choice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from choice
+    where choiceid = #{choiceid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from choice
+    where choiceid = #{choiceid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.onlineexam.po.ChoiceExample">
+    delete from choice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.onlineexam.po.Choice">
+    insert into choice (choiceid, questionid, choice
+      )
+    values (#{choiceid,jdbcType=INTEGER}, #{questionid,jdbcType=INTEGER}, #{choice,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.onlineexam.po.Choice">
+    insert into choice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="choiceid != null">
+        choiceid,
+      </if>
+      <if test="questionid != null">
+        questionid,
+      </if>
+      <if test="choice != null">
+        choice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="choiceid != null">
+        #{choiceid,jdbcType=INTEGER},
+      </if>
+      <if test="questionid != null">
+        #{questionid,jdbcType=INTEGER},
+      </if>
+      <if test="choice != null">
+        #{choice,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.onlineexam.po.ChoiceExample" resultType="java.lang.Long">
+    select count(*) from choice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update choice
+    <set>
+      <if test="record.choiceid != null">
+        choiceid = #{record.choiceid,jdbcType=INTEGER},
+      </if>
+      <if test="record.questionid != null">
+        questionid = #{record.questionid,jdbcType=INTEGER},
+      </if>
+      <if test="record.choice != null">
+        choice = #{record.choice,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update choice
+    set choiceid = #{record.choiceid,jdbcType=INTEGER},
+      questionid = #{record.questionid,jdbcType=INTEGER},
+      choice = #{record.choice,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update choice
+    set choiceid = #{record.choiceid,jdbcType=INTEGER},
+      questionid = #{record.questionid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.onlineexam.po.Choice">
+    update choice
+    <set>
+      <if test="questionid != null">
+        questionid = #{questionid,jdbcType=INTEGER},
+      </if>
+      <if test="choice != null">
+        choice = #{choice,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where choiceid = #{choiceid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.onlineexam.po.Choice">
+    update choice
+    set questionid = #{questionid,jdbcType=INTEGER},
+      choice = #{choice,jdbcType=LONGVARCHAR}
+    where choiceid = #{choiceid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.onlineexam.po.Choice">
+    update choice
+    set questionid = #{questionid,jdbcType=INTEGER}
+    where choiceid = #{choiceid,jdbcType=INTEGER}
+  </update>
+</mapper>
